@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://cb6jbpin2la58"]
+
+[ext_resource type="PackedScene" uid="uid://dxmpjdki8kqw5" path="res://data/models/maintenance/saw/ConcreteSaw.glb" id="1_hp8u6"]
+[ext_resource type="Script" uid="uid://6u62ulk7xl13" path="res://data/resources/tools/fps_concrete_sawtscn.gd" id="1_uxh2p"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://cjcfyxhkn6431" path="res://data/resources/FPS_StateMachine.tres" id="3_n8ush"]
+
+[node name="FPS_ConcreteSaw" type="Node3D"]
+script = ExtResource("1_uxh2p")
+
+[node name="ConcreteSaw" parent="." instance=ExtResource("1_hp8u6")]
+
+[node name="Empty" parent="ConcreteSaw" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.222434)
+
+[node name="Skeleton3D" parent="ConcreteSaw/Empty/Armature" index="0"]
+bones/0/position = Vector3(-0.33538, -0.791286, 1)
+bones/0/rotation = Quaternion(0.140951, 0.286826, -0.0427092, 0.946594)
+bones/3/rotation = Quaternion(-2.62489e-08, -2.4502e-08, -0.707107, 0.707107)
+bones/4/rotation = Quaternion(1.86265e-09, 1.20445e-07, 3.30475e-10, 1)
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("%AnimationTree/../ConcreteSaw")
+tree_root = ExtResource("3_n8ush")
+anim_player = NodePath("../ConcreteSaw/AnimationPlayer")
+
+[editable path="ConcreteSaw"]

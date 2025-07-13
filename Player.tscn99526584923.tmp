@@ -1,0 +1,146 @@
+[gd_scene load_steps=12 format=3 uid="uid://bevyo55p0j3mq"]
+
+[ext_resource type="Script" uid="uid://f1t7m6e517tp" path="res://player.gd" id="1_xhfnw"]
+[ext_resource type="Texture2D" uid="uid://bu7poui4lxrwf" path="res://data/images/tools/icon_ConcreteSaw.png" id="2_kpjcp"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xhfnw"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("pivot:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xhfnw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xhfnw"]
+diffuse_mode = 3
+specular_mode = 2
+proximity_fade_distance = 0.01
+
+[sub_resource type="PrismMesh" id="PrismMesh_xhfnw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kpjcp"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_kne1u"]
+viewport_path = NodePath("pivot/Camera3D/SubViewport")
+
+[sub_resource type="Environment" id="Environment_kpjcp"]
+ambient_light_source = 2
+ambient_light_color = Color(0.666569, 0.666569, 0.666569, 1)
+
+[sub_resource type="World3D" id="World3D_kne1u"]
+environment = SubResource("Environment_kpjcp")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5b3u6"]
+
+[node name="Player" type="CharacterBody3D" groups=["Player"]]
+script = ExtResource("1_xhfnw")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.05
+replication_config = SubResource("SceneReplicationConfig_xhfnw")
+
+[node name="pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+
+[node name="Camera3D" type="Camera3D" parent="pivot"]
+unique_name_in_owner = true
+fov = 90.0
+
+[node name="Ray_LookAt" type="RayCast3D" parent="pivot/Camera3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+target_position = Vector3(0, 0, -3.5)
+
+[node name="HideMe" type="Node3D" parent="pivot/Camera3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.609787, 0)
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="pivot/Camera3D/HideMe"]
+transform = Transform3D(1, 0, 0, 0, 0.411567, 0, 0, 0, 1, 0, 0.516239, 0)
+mesh = SubResource("CylinderMesh_xhfnw")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_xhfnw")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="pivot/Camera3D/HideMe/MeshInstance3D5"]
+transform = Transform3D(0.6, 0, 0, 0, -3.82346e-08, 1.02049, 0, -0.36, -1.83588e-08, 0, -0.399712, -0.517479)
+mesh = SubResource("PrismMesh_xhfnw")
+skeleton = NodePath("../../../../../HideMe2/MeshInstance3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_kpjcp")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="pivot/Camera3D/HideMe/MeshInstance3D5"]
+transform = Transform3D(0.18, 0, 0, 0, -3.84076e-09, 0.306147, 0, -0.0361629, -5.50764e-09, 0.18283, 0.588379, -0.485135)
+mesh = SubResource("PrismMesh_xhfnw")
+skeleton = NodePath("../../../../../HideMe2/MeshInstance3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_kpjcp")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="pivot/Camera3D/HideMe/MeshInstance3D5"]
+transform = Transform3D(0.18, 0, 0, 0, -3.84076e-09, 0.306147, 0, -0.0361629, -5.50764e-09, -0.192723, 0.588379, -0.485135)
+mesh = SubResource("PrismMesh_xhfnw")
+skeleton = NodePath("../../../../../HideMe2/MeshInstance3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_kpjcp")
+
+[node name="Item_body" type="Node3D" parent="pivot/Camera3D"]
+unique_name_in_owner = true
+
+[node name="PlayerUI" type="Control" parent="pivot/Camera3D"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="pivot/Camera3D/PlayerUI"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = SubResource("ViewportTexture_kne1u")
+expand_mode = 1
+
+[node name="Tex_Equpped" type="TextureRect" parent="pivot/Camera3D/PlayerUI"]
+layout_mode = 0
+offset_left = 1600.0
+offset_top = 768.0
+offset_right = 1800.0
+offset_bottom = 968.0
+texture = ExtResource("2_kpjcp")
+expand_mode = 1
+
+[node name="SubViewport" type="SubViewport" parent="pivot/Camera3D"]
+unique_name_in_owner = true
+own_world_3d = true
+world_3d = SubResource("World3D_kne1u")
+transparent_bg = true
+size = Vector2i(1280, 720)
+
+[node name="Camera3D" type="Camera3D" parent="pivot/Camera3D/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+fov = 90.0
+
+[node name="Item" type="Node3D" parent="pivot/Camera3D/SubViewport/Camera3D"]
+unique_name_in_owner = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_5b3u6")
+
+[node name="HideMe2" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HideMe2"]
+transform = Transform3D(1, 0, 0, 0, 0.626098, 0, 0, 0, 1, 0, 0.632766, 0)
+mesh = SubResource("CylinderMesh_xhfnw")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_xhfnw")
+
+[node name="Label3D" type="Label3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(2.3, 0, 0, 0, 2.3, 0, 0, 0, 2.3, 0, 2.78354, 0)
+billboard = 2
+text = "Penis"

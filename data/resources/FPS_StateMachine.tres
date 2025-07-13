@@ -1,0 +1,63 @@
+[gd_resource type="AnimationNodeStateMachine" load_steps=15 format=3 uid="uid://cjcfyxhkn6431"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uxh2p"]
+animation = &"FPS_Attack"
+advance_on_start = true
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_n8ush"]
+animation = &"FPS_Attack_End"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mjeau"]
+animation = &"FPS_Attack_Start"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1xo67"]
+animation = &"FPS_Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rr48a"]
+animation = &"FPS_Moving"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q4lk4"]
+animation = &"FPS_On_Equip"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3tr1t"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_kr8ep"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vnry8"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_q4lk4"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1xo67"]
+priority = 0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rr48a"]
+priority = 0
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_110kr"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cick6"]
+priority = 0
+switch_mode = 2
+advance_mode = 2
+
+[resource]
+states/FPS_Attack/node = SubResource("AnimationNodeAnimation_uxh2p")
+states/FPS_Attack/position = Vector2(293, -115)
+states/FPS_Attack_End/node = SubResource("AnimationNodeAnimation_n8ush")
+states/FPS_Attack_End/position = Vector2(545, -175)
+states/FPS_Attack_Start/node = SubResource("AnimationNodeAnimation_mjeau")
+states/FPS_Attack_Start/position = Vector2(280, 2)
+states/FPS_Idle/node = SubResource("AnimationNodeAnimation_1xo67")
+states/FPS_Idle/position = Vector2(399, 100)
+states/FPS_Moving/node = SubResource("AnimationNodeAnimation_rr48a")
+states/FPS_Moving/position = Vector2(611, 100)
+states/FPS_On_Equip/node = SubResource("AnimationNodeAnimation_q4lk4")
+states/FPS_On_Equip/position = Vector2(203, 100)
+states/Start/position = Vector2(56, 100)
+transitions = ["Start", "FPS_On_Equip", SubResource("AnimationNodeStateMachineTransition_3tr1t"), "FPS_On_Equip", "FPS_Idle", SubResource("AnimationNodeStateMachineTransition_kr8ep"), "FPS_Idle", "FPS_Moving", SubResource("AnimationNodeStateMachineTransition_vnry8"), "FPS_Moving", "FPS_Idle", SubResource("AnimationNodeStateMachineTransition_q4lk4"), "FPS_Idle", "FPS_Attack_Start", SubResource("AnimationNodeStateMachineTransition_1xo67"), "FPS_Attack_Start", "FPS_Attack", SubResource("AnimationNodeStateMachineTransition_rr48a"), "FPS_Attack", "FPS_Attack_End", SubResource("AnimationNodeStateMachineTransition_110kr"), "FPS_Attack_End", "FPS_Idle", SubResource("AnimationNodeStateMachineTransition_cick6")]
+graph_offset = Vector2(-404, -281)

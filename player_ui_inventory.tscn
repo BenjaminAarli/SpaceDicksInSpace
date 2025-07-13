@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://1jcsi8jeby87"]
+
+[ext_resource type="Shader" uid="uid://cmufpdbuplu2b" path="res://addons/InventorySystem/graphics/fuck.gdshader" id="1_xnnmh"]
+[ext_resource type="Texture2D" uid="uid://dlivx6djixxae" path="res://addons/InventorySystem/graphics/grid_empty.png" id="2_10j1x"]
+[ext_resource type="Script" uid="uid://ott6na4fhdr8" path="res://scripts/NodeInventoryGridPlayer.gd" id="5_5qjut"]
+
+[sub_resource type="Image" id="Image_xnnmh"]
+data = {
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"format": "RGBA8",
+"height": 4,
+"mipmaps": false,
+"width": 4
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_10j1x"]
+image = SubResource("Image_xnnmh")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5qjut"]
+shader = ExtResource("1_xnnmh")
+shader_parameter/texture_albedo = ExtResource("2_10j1x")
+shader_parameter/node_size = Vector2(384, 384)
+shader_parameter/grid_size = Vector2(1, 1)
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/grid_color = SubResource("ImageTexture_10j1x")
+
+[node name="PlayerUI_Inventory" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InventoryGridPlayer" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_5qjut")
+layout_mode = 0
+offset_left = 128.0
+offset_top = 128.0
+offset_right = 512.0
+offset_bottom = 512.0
+script = ExtResource("5_5qjut")
+grid_size = Vector2i(4, 4)
+metadata/_custom_type_script = "uid://ott6na4fhdr8"

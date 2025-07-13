@@ -1,0 +1,75 @@
+[gd_scene load_steps=12 format=3 uid="uid://ioeueqdc2vv0"]
+
+[ext_resource type="Script" uid="uid://dwotsc6l61ix0" path="res://data/props/prop_container.gd" id="1_pj75g"]
+[ext_resource type="PackedScene" uid="uid://x7dwlvywypo7" path="res://walls/locker.blend" id="2_6wibl"]
+[ext_resource type="Shader" uid="uid://cmufpdbuplu2b" path="res://addons/InventorySystem/graphics/fuck.gdshader" id="3_py12r"]
+[ext_resource type="Texture2D" uid="uid://dlivx6djixxae" path="res://addons/InventorySystem/graphics/grid_empty.png" id="4_unohg"]
+[ext_resource type="Script" uid="uid://dnd2b82wuybt8" path="res://addons/InventorySystem/nodes/InventoryGrid.gd" id="5_048y0"]
+[ext_resource type="PackedScene" uid="uid://1jcsi8jeby87" path="res://player_ui_inventory.tscn" id="6_unohg"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pj75g"]
+size = Vector3(0.7, 2, 0.7)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_unohg"]
+radius = 2.0
+
+[sub_resource type="Image" id="Image_unohg"]
+data = {
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"format": "RGBA8",
+"height": 5,
+"mipmaps": false,
+"width": 2
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_048y0"]
+image = SubResource("Image_unohg")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_phjag"]
+shader = ExtResource("3_py12r")
+shader_parameter/texture_albedo = ExtResource("4_unohg")
+shader_parameter/node_size = Vector2(256, 640)
+shader_parameter/grid_size = Vector2(1, 1)
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/grid_color = SubResource("ImageTexture_048y0")
+
+[node name="container_locker" type="Area3D" node_paths=PackedStringArray("anim", "UINode")]
+script = ExtResource("1_pj75g")
+anim = NodePath("locker/AnimationPlayer")
+UINode = NodePath("UINode")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_pj75g")
+
+[node name="locker" parent="." instance=ExtResource("2_6wibl")]
+
+[node name="PlayerLeaveArea" type="Area3D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerLeaveArea"]
+transform = Transform3D(1, 0, 0, 0, 0.539209, 0, 0, 0, 1, 0, 0.930646, 0)
+shape = SubResource("SphereShape3D_unohg")
+
+[node name="UINode" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="InventoryGrid" type="ColorRect" parent="UINode"]
+material = SubResource("ShaderMaterial_phjag")
+layout_mode = 0
+offset_left = 1472.0
+offset_top = 128.0
+offset_right = 1728.0
+offset_bottom = 768.0
+script = ExtResource("5_048y0")
+grid_size = Vector2i(2, 5)
+metadata/_custom_type_script = "uid://dnd2b82wuybt8"
+
+[node name="PlayerUI_Inventory" parent="UINode" instance=ExtResource("6_unohg")]
+layout_mode = 1
+
+[editable path="locker"]

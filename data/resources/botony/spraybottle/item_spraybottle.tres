@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemTool" load_steps=4 format=3 uid="uid://c6sphgljphm2v"]
+
+[ext_resource type="PackedScene" uid="uid://da8o8rusoqpgo" path="res://data/props/botony/spraybottle/prop_spraybottle.tscn" id="1_d0f8e"]
+[ext_resource type="Script" uid="uid://ca7yptiok2r2n" path="res://data/resources/tools/ItemTool.gd" id="1_wosv3"]
+[ext_resource type="PackedScene" uid="uid://cpstqmrtxm1n5" path="res://data/resources/botony/spraybottle/fps_spraybottle.tscn" id="2_t0fee"]
+
+[resource]
+script = ExtResource("1_wosv3")
+prop = ExtResource("1_d0f8e")
+scene = ExtResource("2_t0fee")
+metadata/_custom_type_script = "uid://ca7yptiok2r2n"

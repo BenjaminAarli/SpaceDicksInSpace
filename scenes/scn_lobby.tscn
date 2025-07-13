@@ -1,0 +1,165 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccrwslt2got2t"]
+
+[ext_resource type="Script" uid="uid://c36f84omw2ql2" path="res://network/lobby.gd" id="1_h68g8"]
+
+[sub_resource type="GDScript" id="GDScript_h68g8"]
+script/source = "extends Control
+
+func _ready() -> void:
+	%line_ip.text_changed.connect(func(text): Network.IP_ADRESS = text)
+	%line_port.text_changed.connect(func(text): Network.PORT 	= int(text))
+	%btn_edit_ip.toggled.connect(func(pressed): %line_ip.editable = pressed)
+	%btn_edit_port.toggled.connect(func(pressed): %line_port.editable = pressed)
+	pass
+"
+
+[node name="scn_lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_h68g8")
+
+[node name="Textlog" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 704.0
+offset_bottom = 1024.0
+bbcode_enabled = true
+
+[node name="Panel" type="Panel" parent="Textlog"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -24.0
+offset_right = 32.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="btn_joingame" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1664.0
+offset_top = 64.0
+offset_right = 1856.0
+offset_bottom = 128.0
+text = "Join Game"
+
+[node name="btn_creategame" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1664.0
+offset_top = 136.0
+offset_right = 1856.0
+offset_bottom = 200.0
+text = "Create Game"
+
+[node name="btn_disconnect" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1224.0
+offset_top = 40.0
+offset_right = 1416.0
+offset_bottom = 104.0
+text = "Disconnect"
+
+[node name="btn_startgame" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1664.0
+offset_top = 968.0
+offset_right = 1856.0
+offset_bottom = 1032.0
+text = "Start Game"
+
+[node name="NameList" type="ItemList" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 768.0
+offset_top = 40.0
+offset_right = 1216.0
+offset_bottom = 296.0
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 768.0
+offset_top = 384.0
+offset_right = 1408.0
+offset_bottom = 704.0
+script = SubResource("GDScript_h68g8")
+
+[node name="line_ip" type="LineEdit" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 64.0
+offset_right = 376.0
+offset_bottom = 128.0
+placeholder_text = "127.0.0.1"
+alignment = 2
+editable = false
+
+[node name="line_port" type="LineEdit" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 384.0
+offset_top = 64.0
+offset_right = 576.0
+offset_bottom = 128.0
+placeholder_text = "12346"
+editable = false
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_top = 16.0
+offset_right = 112.0
+offset_bottom = 56.0
+text = "IP ADDRESS"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 16.0
+offset_right = 576.0
+offset_bottom = 56.0
+text = "Port"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="btn_edit_ip" type="Button" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 288.0
+offset_top = 16.0
+offset_right = 376.0
+offset_bottom = 56.0
+toggle_mode = true
+text = "Edit IP"
+
+[node name="btn_edit_port" type="Button" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 384.0
+offset_top = 16.0
+offset_right = 472.0
+offset_bottom = 56.0
+toggle_mode = true
+text = "Edit Port"
+
+[node name="line_YourName" type="LineEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 768.0
+offset_top = 320.0
+offset_right = 1344.0
+offset_bottom = 384.0
+placeholder_text = "Your Name"

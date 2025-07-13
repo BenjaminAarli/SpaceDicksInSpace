@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemTool" load_steps=5 format=3 uid="uid://csj5rqdq7jswr"]
+
+[ext_resource type="PackedScene" uid="uid://bgm6knmp1xooe" path="res://data/props/prop_tool.tscn" id="1_d5nke"]
+[ext_resource type="Texture2D" uid="uid://bu7poui4lxrwf" path="res://data/images/tools/icon_ConcreteSaw.png" id="1_lkcly"]
+[ext_resource type="Script" uid="uid://ca7yptiok2r2n" path="res://data/resources/tools/ItemTool.gd" id="2_lkcly"]
+[ext_resource type="PackedScene" uid="uid://cb6jbpin2la58" path="res://data/resources/tools/fps_ConcreteSawtscn.tscn" id="3_3vbv2"]
+
+[resource]
+script = ExtResource("2_lkcly")
+prop = ExtResource("1_d5nke")
+icon = ExtResource("1_lkcly")
+scene = ExtResource("3_3vbv2")
+metadata/_custom_type_script = "uid://ca7yptiok2r2n"

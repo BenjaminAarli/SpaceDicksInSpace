@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PlantData" load_steps=8 format=3 uid="uid://ctufkfl23t60w"]
+
+[ext_resource type="Texture2D" uid="uid://s6mm7ry00t31" path="res://data/images/plants/dev_plant_wheat_bundle.png" id="1_4gekd"]
+[ext_resource type="Texture2D" uid="uid://d4ejkuqa3puc0" path="res://data/images/plants/dev_plant_wheat_00.png" id="1_7a7a6"]
+[ext_resource type="Script" uid="uid://dhce4x0i4kmvq" path="res://plant.gd" id="1_bxr73"]
+[ext_resource type="Texture2D" uid="uid://qa81es3bhvgb" path="res://data/images/plants/dev_plant_wheat_01.png" id="2_spg5a"]
+[ext_resource type="Texture2D" uid="uid://ck14fj4b8dth0" path="res://data/images/plants/dev_plant_wheat_02.png" id="3_dtxel"]
+[ext_resource type="Texture2D" uid="uid://1ui4q6c8u4l2" path="res://data/images/plants/dev_plant_wheat_03.png" id="4_4gekd"]
+[ext_resource type="Texture2D" uid="uid://b18vh44xcwuej" path="res://data/images/plants/dev_plant_wheat_seeds.png" id="7_3c3mf"]
+
+[resource]
+script = ExtResource("1_bxr73")
+name = "Wheat"
+seed_image = ExtResource("7_3c3mf")
+bundle_image = ExtResource("1_4gekd")
+images = Array[Texture2D]([ExtResource("1_7a7a6"), ExtResource("2_spg5a"), ExtResource("3_dtxel"), ExtResource("4_4gekd")])
+metadata/_custom_type_script = "uid://dhce4x0i4kmvq"

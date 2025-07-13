@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpstqmrtxm1n5"]
+
+[ext_resource type="Script" uid="uid://ddrklpfqlwyjx" path="res://data/resources/botony/spraybottle/fps_spraybottle.gd" id="1_ta4x5"]
+[ext_resource type="PackedScene" uid="uid://bea25tipcgjn" path="res://data/models/botony/botony_spraybottle.glb" id="2_v1snq"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://cjcfyxhkn6431" path="res://data/resources/FPS_StateMachine.tres" id="3_ys14c"]
+
+[node name="fps_spraybottle" type="Node3D"]
+script = ExtResource("1_ta4x5")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+unique_name_in_owner = true
+target_position = Vector3(0, 0, -2)
+collision_mask = 3
+collide_with_areas = true
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="botony_spraybottle" parent="Node3D" instance=ExtResource("2_v1snq")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="Skeleton3D" parent="Node3D/botony_spraybottle/Armature" index="0"]
+bones/0/position = Vector3(2.55545, -1.96265, 3.45129)
+bones/0/rotation = Quaternion(0.707107, 2.52088e-08, -0.707107, -4.21469e-08)
+bones/1/rotation = Quaternion(0.707107, 5.04176e-08, -0.707107, -2.51215e-15)
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("%AnimationTree/../Node3D/botony_spraybottle")
+tree_root = ExtResource("3_ys14c")
+anim_player = NodePath("../Node3D/botony_spraybottle/AnimationPlayer")
+
+[editable path="Node3D/botony_spraybottle"]

@@ -1,0 +1,151 @@
+[gd_scene load_steps=14 format=3 uid="uid://d2ox05omvnv8m"]
+
+[ext_resource type="PackedScene" uid="uid://d4cglfat7g5qm" path="res://data/models/botony/pots/Dev_Planter.blend" id="1_qjin4"]
+[ext_resource type="Script" uid="uid://bya7ace8rc1qm" path="res://data/machines/botony/mch_planter.gd" id="1_tl36q"]
+[ext_resource type="Resource" uid="uid://ctufkfl23t60w" path="res://data/resources/plants/Wheat.tres" id="2_2ejrj"]
+[ext_resource type="Texture2D" uid="uid://d4ejkuqa3puc0" path="res://data/images/plants/dev_plant_wheat_00.png" id="4_d2w1a"]
+[ext_resource type="Shader" uid="uid://cmufpdbuplu2b" path="res://addons/InventorySystem/graphics/fuck.gdshader" id="5_l5nj5"]
+[ext_resource type="Texture2D" uid="uid://dlivx6djixxae" path="res://addons/InventorySystem/graphics/grid_empty.png" id="6_dkr0n"]
+[ext_resource type="Script" uid="uid://dnd2b82wuybt8" path="res://addons/InventorySystem/nodes/InventoryGrid.gd" id="7_slgck"]
+[ext_resource type="PackedScene" uid="uid://1jcsi8jeby87" path="res://player_ui_inventory.tscn" id="8_dkr0n"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qjin4"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d2w1a"]
+size = Vector3(4, 2, 4)
+
+[sub_resource type="Image" id="Image_dkr0n"]
+data = {
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"format": "RGBA8",
+"height": 2,
+"mipmaps": false,
+"width": 2
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_slgck"]
+image = SubResource("Image_dkr0n")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c1ded"]
+shader = ExtResource("5_l5nj5")
+shader_parameter/texture_albedo = ExtResource("6_dkr0n")
+shader_parameter/node_size = Vector2(256, 256)
+shader_parameter/grid_size = Vector2(1, 1)
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/grid_color = SubResource("ImageTexture_slgck")
+
+[node name="mch_Planter" type="Area3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_tl36q")
+seed = ExtResource("2_2ejrj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_qjin4")
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+autostart = true
+
+[node name="Dev_Planter" parent="." instance=ExtResource("1_qjin4")]
+transform = Transform3D(0.624, 0, 0, 0, 0.624, 0, 0, 0, 0.624, 0, 0, 0)
+
+[node name="PlayerLeaveArea" type="Area3D" parent="."]
+unique_name_in_owner = true
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerLeaveArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_d2w1a")
+
+[node name="Sprites" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0.0671437, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="Sprites"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.395558, 0)
+centered = false
+offset = Vector2(-64, 0)
+texture = ExtResource("4_d2w1a")
+
+[node name="Sprite3D7" type="Sprite3D" parent="Sprites"]
+transform = Transform3D(0.282843, 0, -0.282843, 0, 0.4, 0, 0.282843, 0, 0.282843, 0, 0.395558, 0)
+centered = false
+offset = Vector2(-64, 0)
+texture = ExtResource("4_d2w1a")
+
+[node name="Sprite3D8" type="Sprite3D" parent="Sprites"]
+transform = Transform3D(-0.282843, 0, -0.282843, 0, 0.4, 0, 0.282843, 0, -0.282843, 0, 0.395558, 0)
+centered = false
+offset = Vector2(-64, 0)
+texture = ExtResource("4_d2w1a")
+
+[node name="Sprite3D5" type="Sprite3D" parent="Sprites"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.395558, 0.197269)
+centered = false
+offset = Vector2(-64, 0)
+texture = ExtResource("4_d2w1a")
+
+[node name="Sprite3D6" type="Sprite3D" parent="Sprites"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.395558, -0.215119)
+centered = false
+offset = Vector2(-64, 0)
+texture = ExtResource("4_d2w1a")
+
+[node name="Sprite3D2" type="Sprite3D" parent="Sprites"]
+transform = Transform3D(-1.74846e-08, 0, 0.4, 0, 0.4, 0, -0.4, 0, -1.74846e-08, 0, 0.395558, 0)
+centered = false
+offset = Vector2(-64, 0)
+texture = ExtResource("4_d2w1a")
+
+[node name="Sprite3D3" type="Sprite3D" parent="Sprites"]
+transform = Transform3D(-1.74846e-08, 0, 0.4, 0, 0.4, 0, -0.4, 0, -1.74846e-08, 0.207672, 0.395558, 0)
+centered = false
+offset = Vector2(-64, 0)
+texture = ExtResource("4_d2w1a")
+
+[node name="Sprite3D4" type="Sprite3D" parent="Sprites"]
+transform = Transform3D(-1.74846e-08, 0, 0.4, 0, 0.4, 0, -0.4, 0, -1.74846e-08, -0.204553, 0.395558, 0)
+centered = false
+offset = Vector2(-64, 0)
+texture = ExtResource("4_d2w1a")
+
+[node name="UINode" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="UINode"]
+layout_mode = 0
+offset_left = 1144.0
+offset_top = 136.0
+offset_right = 1792.0
+offset_bottom = 960.0
+
+[node name="InventoryGrid" type="ColorRect" parent="UINode/Panel"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_c1ded")
+layout_mode = 0
+offset_left = 200.0
+offset_top = 56.0
+offset_right = 456.0
+offset_bottom = 312.0
+script = ExtResource("7_slgck")
+remove_only = true
+grid_size = Vector2i(2, 2)
+metadata/_custom_type_script = "uid://dnd2b82wuybt8"
+
+[node name="PlayerUI_Inventory" parent="UINode/Panel" instance=ExtResource("8_dkr0n")]
+layout_mode = 1
+offset_left = -1144.0
+offset_top = 328.0
+offset_right = -1144.0
+offset_bottom = 328.0
+
+[connection signal="items_emptied" from="UINode/Panel/InventoryGrid" to="." method="_on_inventory_grid_items_emptied"]

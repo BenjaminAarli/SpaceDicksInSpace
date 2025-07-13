@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://cqq8fly5xcnyu"]
+
+[ext_resource type="Script" uid="uid://k1fq5cwds102" path="res://prop_pot.gd" id="1_84wjf"]
+[ext_resource type="PackedScene" uid="uid://ddxcd74ytmo5k" path="res://data/models/botony/pots/pot.glb" id="2_2q3ii"]
+[ext_resource type="Resource" uid="uid://ctufkfl23t60w" path="res://data/resources/plants/Wheat.tres" id="2_7kfcm"]
+[ext_resource type="Texture2D" uid="uid://1ui4q6c8u4l2" path="res://data/images/plants/dev_plant_wheat_03.png" id="4_7kfcm"]
+
+[node name="prop_pot" type="Node3D"]
+script = ExtResource("1_84wjf")
+seed = ExtResource("2_7kfcm")
+stage = 3
+
+[node name="pot" parent="." instance=ExtResource("2_2q3ii")]
+unique_name_in_owner = true
+transform = Transform3D(0.26, 0, 0, 0, 0.26, 0, 0, 0, 0.26, 0, 0, 0)
+
+[node name="Cube" parent="pot" index="0"]
+visible = false
+
+[node name="Plant" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.499674, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="Plant"]
+unique_name_in_owner = true
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.001, 0.323972, 0)
+shaded = true
+texture = ExtResource("4_7kfcm")
+
+[editable path="pot"]

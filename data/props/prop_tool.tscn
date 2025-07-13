@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://bgm6knmp1xooe"]
+
+[ext_resource type="Script" uid="uid://bfjnjicomhwop" path="res://data/props/prop_tool.gd" id="1_025n3"]
+[ext_resource type="PackedScene" uid="uid://dxmpjdki8kqw5" path="res://data/models/maintenance/saw/ConcreteSaw.glb" id="1_54veo"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_025n3"]
+friction = 0.6
+bounce = 1.0
+absorbent = true
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_025n3"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_54veo"]
+points = PackedVector3Array(-0.138262, 0.00149753, -0.439164, -0.153622, 0.255007, -0.434506, -0.0430434, 0.127263, -0.784303, -0.0427607, 0.0510278, -0.764549, -0.000168905, 0.0401479, -0.779967, 0.137972, 0.00149753, -0.439164, -0.138262, 0.00149753, 0.259145, -0.0799814, 0.478388, -0.296547, -0.0440328, 0.241997, -0.761176, -0.153622, 0.255007, -0.0506614, -0.0647633, 0.726115, 0.467931, -0.000168905, 0.124144, -0.802291, 0.04247, 0.0510278, -0.764549, 0.327703, 0.326602, -0.0137224, 0.28497, 0.138219, -0.0416676, 0.230505, 0.0797112, -0.0503402, 0.137972, 0.00149753, 0.259145, -0.000168905, 0.118209, 0.638974, -0.000168905, 0.22503, 0.774364, -0.0870486, 0.420717, 0.586457, -0.0870486, 0.463476, 0.597217, -0.0994869, 0.426043, 0.519645, -0.138262, 0.0166381, 0.259145, 0.0796907, 0.478388, -0.296547, -0.000168905, 0.249377, -0.776915, -0.0317829, 0.765526, 0.462149, -0.000168905, 0.778765, 0.456046, -0.134776, 0.229139, 0.274081, -0.0994869, 0.436694, 0.515309, -0.0994869, 0.43989, 0.51033, -0.000168905, 0.556145, 0.813552, -0.000168905, 0.691649, 0.70675, 0.0437421, 0.241997, -0.761176, 0.0427527, 0.127263, -0.784303, 0.28497, 0.514984, 0.0140622, -0.000168905, 0.385338, 0.838445, 0.314228, 0.322037, 0.0209682, 0.314228, 0.332232, -0.048413, -0.0994869, 0.431749, 0.518521, 0.230505, 0.568394, 0.0219318, 0.221459, 0.554395, -0.015489, -0.000168905, 0.75556, 0.546466, 0.0314922, 0.765526, 0.462149, 0.0644726, 0.726115, 0.467931, 0.271542, 0.505397, -0.0227162)
+
+[node name="Prop_Tool" type="RigidBody3D"]
+input_ray_pickable = false
+mass = 13.0
+physics_material_override = SubResource("PhysicsMaterial_025n3")
+script = ExtResource("1_025n3")
+resource = "uid://csj5rqdq7jswr"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_025n3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(-0.7, 0, 6.1196e-08, 0, 0.7, 0, -6.1196e-08, 0, -0.7, 0, -0.199684, -0.00668092)
+shape = SubResource("ConvexPolygonShape3D_54veo")
+
+[node name="Model" type="Node3D" parent="."]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, -0.199684, -0.313907)
+
+[node name="ConcreteSaw" parent="Model" instance=ExtResource("1_54veo")]
+
+[editable path="Model/ConcreteSaw"]

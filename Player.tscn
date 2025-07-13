@@ -1,0 +1,220 @@
+[gd_scene load_steps=12 format=3 uid="uid://bevyo55p0j3mq"]
+
+[ext_resource type="Script" uid="uid://f1t7m6e517tp" path="res://player.gd" id="1_xhfnw"]
+[ext_resource type="Script" uid="uid://do7pqcn6q7w0g" path="res://player_ui.gd" id="2_kne1u"]
+[ext_resource type="Script" uid="uid://dk5ha12eyno4b" path="res://scripts/NodeChatlog.gd" id="3_kne1u"]
+[ext_resource type="PackedScene" uid="uid://1jcsi8jeby87" path="res://player_ui_inventory.tscn" id="4_e80uo"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xhfnw"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("pivot:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xhfnw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xhfnw"]
+diffuse_mode = 3
+specular_mode = 2
+proximity_fade_distance = 0.01
+
+[sub_resource type="PrismMesh" id="PrismMesh_xhfnw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kpjcp"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kne1u"]
+bg_color = Color(0.152941, 0.152941, 0.152941, 0.380392)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5b3u6"]
+
+[node name="Player" type="CharacterBody3D" groups=["Player"]]
+floor_constant_speed = true
+script = ExtResource("1_xhfnw")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.05
+replication_config = SubResource("SceneReplicationConfig_xhfnw")
+
+[node name="pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+
+[node name="Camera3D" type="Camera3D" parent="pivot"]
+unique_name_in_owner = true
+fov = 100.0
+
+[node name="Ray_LookAt" type="RayCast3D" parent="pivot/Camera3D"]
+unique_name_in_owner = true
+target_position = Vector3(0, 0, -3.5)
+collide_with_areas = true
+
+[node name="HideMe" type="Node3D" parent="pivot/Camera3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.609787, 0)
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="pivot/Camera3D/HideMe"]
+transform = Transform3D(1, 0, 0, 0, 0.411567, 0, 0, 0, 1, 0, 0.516239, 0)
+mesh = SubResource("CylinderMesh_xhfnw")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_xhfnw")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="pivot/Camera3D/HideMe/MeshInstance3D5"]
+transform = Transform3D(0.6, 0, 0, 0, -3.82346e-08, 1.02049, 0, -0.36, -1.83588e-08, 0, -0.399712, -0.517479)
+mesh = SubResource("PrismMesh_xhfnw")
+skeleton = NodePath("../../../../../HideMe2/MeshInstance3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_kpjcp")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="pivot/Camera3D/HideMe/MeshInstance3D5"]
+transform = Transform3D(0.18, 0, 0, 0, -3.84076e-09, 0.306147, 0, -0.0361629, -5.50764e-09, 0.18283, 0.588379, -0.485135)
+mesh = SubResource("PrismMesh_xhfnw")
+skeleton = NodePath("../../../../../HideMe2/MeshInstance3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_kpjcp")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="pivot/Camera3D/HideMe/MeshInstance3D5"]
+transform = Transform3D(0.18, 0, 0, 0, -3.84076e-09, 0.306147, 0, -0.0361629, -5.50764e-09, -0.192723, 0.588379, -0.485135)
+mesh = SubResource("PrismMesh_xhfnw")
+skeleton = NodePath("../../../../../HideMe2/MeshInstance3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_kpjcp")
+
+[node name="Item" type="Node3D" parent="pivot/Camera3D"]
+unique_name_in_owner = true
+
+[node name="PlayerUI" type="Control" parent="pivot/Camera3D"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+script = ExtResource("2_kne1u")
+
+[node name="CenterContainer" type="CenterContainer" parent="pivot/Camera3D/PlayerUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="pivot/Camera3D/PlayerUI/CenterContainer"]
+custom_minimum_size = Vector2(4, 4)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Equipped" type="Control" parent="pivot/Camera3D/PlayerUI"]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Tex_Equpped0" type="TextureRect" parent="pivot/Camera3D/PlayerUI/Equipped"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 464.0
+offset_top = 896.0
+offset_right = 592.0
+offset_bottom = 1024.0
+expand_mode = 1
+
+[node name="Label" type="Label" parent="pivot/Camera3D/PlayerUI/Equipped/Tex_Equpped0"]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 104.0
+offset_right = 128.0
+offset_bottom = 127.0
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Tex_Equpped1" type="TextureRect" parent="pivot/Camera3D/PlayerUI/Equipped"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 616.0
+offset_top = 944.0
+offset_right = 696.0
+offset_bottom = 1024.0
+expand_mode = 1
+
+[node name="Label2" type="Label" parent="pivot/Camera3D/PlayerUI/Equipped/Tex_Equpped1"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 56.0
+offset_right = 80.0
+offset_bottom = 79.0
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Tex_Equpped2" type="TextureRect" parent="pivot/Camera3D/PlayerUI/Equipped"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 720.0
+offset_top = 944.0
+offset_right = 800.0
+offset_bottom = 1024.0
+expand_mode = 1
+
+[node name="Label3" type="Label" parent="pivot/Camera3D/PlayerUI/Equipped/Tex_Equpped2"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 56.0
+offset_right = 80.0
+offset_bottom = 79.0
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Chatlog" type="RichTextLabel" parent="pivot/Camera3D/PlayerUI"]
+clip_contents = false
+layout_mode = 0
+offset_left = 72.0
+offset_top = 776.0
+offset_right = 440.0
+offset_bottom = 1016.0
+scroll_following = true
+vertical_alignment = 2
+script = ExtResource("3_kne1u")
+metadata/_custom_type_script = "uid://dk5ha12eyno4b"
+
+[node name="Panel" type="Panel" parent="pivot/Camera3D/PlayerUI/Chatlog"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kne1u")
+
+[node name="PlayerUI_Inventory" parent="pivot/Camera3D" instance=ExtResource("4_e80uo")]
+unique_name_in_owner = true
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_5b3u6")
+
+[node name="HideMe2" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HideMe2"]
+transform = Transform3D(1, 0, 0, 0, 0.626098, 0, 0, 0, 1, 0, 0.632766, 0)
+mesh = SubResource("CylinderMesh_xhfnw")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_xhfnw")
+
+[node name="Label3D" type="Label3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(2.3, 0, 0, 0, 2.3, 0, 0, 0, 2.3, 0, 3.04099, 0)
+billboard = 1
+text = "Penis"
