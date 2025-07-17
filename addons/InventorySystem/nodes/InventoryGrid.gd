@@ -13,17 +13,17 @@ signal item_moved_to_another_grid
 const shader = preload("../graphics/fuck.gdshader")
 const image  = preload("../graphics/grid_empty.png")
 
-@export_tool_button("Sort Items") var btn_sort = sort_items
+#@export_tool_button("Sort Items") var btn_sort = sort_items
 @export var remove_only : bool = false
-@export var grid_size 			: Vector2i = Vector2i(5, 5) : 
-	set(value): 
+@export var grid_size 			: Vector2i = Vector2i(5, 5) :
+	set(value):
 		grid_size = value
 		update_grid_colormap([])
 @export var quick_move_target 	: InventoryGrid	= null
 
 var mouse_inside = false
-var items : Array[InventoryItemData] = []: 
-	set(value): 
+var items : Array[InventoryItemData] = []:
+	set(value):
 		items = value
 		update_grid()
 		pass
@@ -35,10 +35,10 @@ func _ready() -> void:
 	material.set_shader_parameter("grid_size", grid_size)
 	material.set_shader_parameter("texture_albedo", image)
 	update_grid_colormap()
-	mouse_entered.connect(func(): 
+	mouse_entered.connect(func():
 		mouse_inside = true
 	)
-	mouse_exited.connect(func(): 
+	mouse_exited.connect(func():
 		mouse_inside = false
 		update_grid_colormap()
 	)
@@ -49,14 +49,28 @@ func _ready() -> void:
 	sort_items()
 	pass
 
+@rpc("any_peer", "call_remote", "reliable")
+func net_add_item_data(dict: Dictionary):
+	print(str(get_multiplayer_authority()) + ": " + str(dict))
+	var res = dict_to_data(dict)
+	items.append(res)
+	update_grid.rpc()
+	pass
+
+func dict_to_data(dict) -> InventoryItemData:
+	var result = InventoryItemData.new()
+	result.deserialize(dict)
+	return result
+
 ## Adds the InventoryItemData to the items array. 
-@rpc("any_peer", "reliable", "call_local")
 func add_item(data: InventoryItemData, pos := Vector2i.ZERO) -> void:
 	if pos != null and can_insert_at(data, pos):
-		print("Could be inserted at: ", pos, "Because it's not in here: ", get_used_slots())
-		add_item_at.rpc(data, pos)
+		add_item_at(data, pos)
+		print("Data being serialized.")
+		net_add_item_data.rpc(data.serialize())
 	elif can_auto_insert(data):
-		auto_insert_item.rpc(data)
+		auto_insert_item(data)
+		net_add_item_data.rpc(data.serialize())
 	else: # Could not place item into grid.
 		pass
 	pass
@@ -109,7 +123,6 @@ func get_used_slots(ignore: InventoryItemData = null) -> Array[Vector2i]:
 			if not slots_used.has(spot): slots_used.append(spot)
 	return slots_used
 
-@rpc("any_peer", "reliable", "call_local")
 func add_item_at(item: InventoryItemData, pos: Vector2i):
 	print("Add item: ", item, " \n at position: ", pos)
 	item.grid_position = pos
@@ -138,7 +151,7 @@ func auto_insert_item(item: InventoryItemData):
 	var pos = Vector2i(-1, -1)
 	for x in range(grid_size.x):
 		if found_pos == true: break
-		for y in range(grid_size.y): 
+		for y in range(grid_size.y):
 			if can_insert_at(item, Vector2i(x, y)):
 				pos = Vector2i(x, y)
 				found_pos = true
@@ -157,7 +170,7 @@ func move_item(item: InventoryItem, grid_pos: Vector2i) -> void:
 
 @rpc("any_peer", "reliable", "call_local")
 func clear_items():
-	for c in get_children(): 
+	for c in get_children():
 		c.queue_free()
 	items_cleared.emit()
 	pass
@@ -197,6 +210,7 @@ func get_slots_amount() -> int:
 	return (grid_size.x * grid_size.y)
 
 ## Places all items on the grid correctly and makes sure their widths and heights are correct. 
+@rpc("any_peer", "call_local", "reliable")
 func update_grid():
 	clear_items()
 	await items_cleared
@@ -264,7 +278,7 @@ func reset() -> void:
 func _new_item_added():
 	var place_here = local_to_grid_position(get_local_mouse_position()) - Vector2i(InventoryItem.held_item.get_held_pos_to_grid())
 	var data = InventoryItem.held_item.data
-	add_item.rpc(data, place_here)
+	add_item(data, place_here)
 	var gr : InventoryGrid = InventoryItem.held_item.get_parent()
 	gr.remove_item(InventoryItem.held_item.data)
 	gr.item_moved_to_another_grid.emit()
@@ -288,7 +302,7 @@ func _input(event: InputEvent) -> void:
 				if InventoryItem.held_item != null:
 					if has_item(InventoryItem.held_item.data):
 						_item_moved()
-					else: 
+					else:
 						if remove_only: return
 						_new_item_added()
 				pass

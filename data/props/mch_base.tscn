@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpanjb8uycjpn"]
+
+[ext_resource type="Script" uid="uid://cgqwqe6dd75a2" path="res://data/props/mch_base.gd" id="1_4kc4w"]
+
+[node name="MchBase" type="Area3D" groups=["Interactable"]]
+script = ExtResource("1_4kc4w")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.017138, 1, -0.00094223)
+
+[node name="PlayerLeaveArea" type="Area3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="PlayerLeaveArea"]
+
+[node name="Mesh" type="Node3D" parent="."]
+
+[node name="UINode" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

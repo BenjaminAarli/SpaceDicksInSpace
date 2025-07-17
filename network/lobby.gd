@@ -41,22 +41,6 @@ func remove_player_data(id: int) -> void:
 	pass
 
 func _ready() -> void:
-	var test: Dictionary[int, String] = {
-		0: "penis",
-		1: "aweful spirit",
-		3: "fuck you",
-		5: "asdasdf"
-	}
-	
-	print("Testing test dictionary")
-	for whatever in test.keys():
-		var value = test[whatever]
-		print(str(whatever), " : ", value)
-	print("End of test.")
-	
-	#client_names[0] = "Penisface"
-	#client_names[425] = "Steve"
-	
 	multiplayer.connected_to_server.connect(server_connect_success) # Only for clients. Don't be fooled.
 	multiplayer.server_disconnected.connect(func(): 	
 		write("Server shut down or disconnected.")
@@ -113,4 +97,7 @@ func create_server():
 func server_connect_success():
 	write("Server connection success!")
 	send_player_data.rpc(multiplayer.get_unique_id())
+	
+	# Enter Game.
+	get_tree().change_scene_to_file("res://scn_main.tscn")
 	pass

@@ -1,0 +1,72 @@
+[gd_scene load_steps=13 format=3 uid="uid://3kpfwo7hm1yf"]
+
+[ext_resource type="PackedScene" uid="uid://bpanjb8uycjpn" path="res://data/props/mch_base.tscn" id="1_stuby"]
+[ext_resource type="Script" uid="uid://m35p8qi50nh" path="res://prop_locker.gd" id="2_fa8gw"]
+[ext_resource type="PackedScene" uid="uid://x7dwlvywypo7" path="res://walls/locker.blend" id="3_ehr1x"]
+[ext_resource type="Shader" uid="uid://cmufpdbuplu2b" path="res://addons/InventorySystem/graphics/fuck.gdshader" id="4_37ysl"]
+[ext_resource type="Texture2D" uid="uid://dlivx6djixxae" path="res://addons/InventorySystem/graphics/grid_empty.png" id="5_r03cv"]
+[ext_resource type="Script" uid="uid://dnd2b82wuybt8" path="res://addons/InventorySystem/nodes/InventoryGrid.gd" id="6_bl0p1"]
+[ext_resource type="PackedScene" uid="uid://1jcsi8jeby87" path="res://player_ui_inventory.tscn" id="7_espkf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_stuby"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_stuby"]
+radius = 2.0
+
+[sub_resource type="Image" id="Image_stuby"]
+data = {
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"format": "RGBA8",
+"height": 5,
+"mipmaps": false,
+"width": 2
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_fa8gw"]
+image = SubResource("Image_stuby")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ehr1x"]
+shader = ExtResource("4_37ysl")
+shader_parameter/texture_albedo = ExtResource("5_r03cv")
+shader_parameter/node_size = Vector2(128, 320)
+shader_parameter/grid_size = Vector2(1, 1)
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/grid_color = SubResource("ImageTexture_fa8gw")
+
+[node name="PropLocker" node_paths=PackedStringArray("anim") instance=ExtResource("1_stuby")]
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0, 0)
+script = ExtResource("2_fa8gw")
+anim = NodePath("Mesh/locker/AnimationPlayer")
+
+[node name="CollisionShape3D" parent="." index="0"]
+shape = SubResource("BoxShape3D_stuby")
+
+[node name="CollisionShape3D2" parent="PlayerLeaveArea" index="0"]
+shape = SubResource("SphereShape3D_stuby")
+
+[node name="locker" parent="Mesh" index="0" instance=ExtResource("3_ehr1x")]
+
+[node name="ColorRect" type="ColorRect" parent="UINode" index="0"]
+layout_mode = 0
+offset_left = 872.0
+offset_top = 184.0
+offset_right = 1016.0
+offset_bottom = 520.0
+color = Color(0.118581, 0.118581, 0.118581, 1)
+
+[node name="InventoryGrid" type="ColorRect" parent="UINode" index="1"]
+material = SubResource("ShaderMaterial_ehr1x")
+layout_mode = 0
+offset_left = 880.0
+offset_top = 192.0
+offset_right = 1008.0
+offset_bottom = 512.0
+script = ExtResource("6_bl0p1")
+grid_size = Vector2i(2, 5)
+metadata/_custom_type_script = "uid://dnd2b82wuybt8"
+
+[node name="PlayerUI_Inventory" parent="UINode" index="2" instance=ExtResource("7_espkf")]
+layout_mode = 1
+
+[editable path="Mesh/locker"]

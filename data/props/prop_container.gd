@@ -9,11 +9,11 @@ func _ready() -> void:
 	add_to_group("Interactable")
 	%UINode.hide()
 	%PlayerLeaveArea.body_entered.connect(func(body): 
-		if body.is_in_group("Player"):
+		if body.is_in_group(Globals.groups.player):
 			inside.append(body)
 		pass)
 	%PlayerLeaveArea.body_exited.connect(func(body): 
-		if body.is_in_group("Player"): 
+		if body.is_in_group(Globals.groups.player): 
 			ui_close()
 			inside.remove_at(inside.find(body))
 		pass)

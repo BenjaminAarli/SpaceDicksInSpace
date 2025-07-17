@@ -24,12 +24,32 @@ var in_space = false:
 func _ready() -> void:
 	%Label3D.text = name
 	add_to_group("Effected_By_Gravity_Change")
-	add_to_group("Player")
+	add_to_group(Globals.groups.player)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	if is_multiplayer_authority():
 		%HideMe.hide()
 		%HideMe2.hide()
 		%Camera3D.current = true
+	multiplayer.peer_disconnected.connect(func(id): 
+		if id == multiplayer.multiplayer_peer:
+			Network.disconnected_players_positions[id] = global_position
+			queue_free()
+		pass)
+	multiplayer.peer_connected.connect(func(id):
+		if Network.disconnected_players_positions.has(id):
+			global_position = Network.disconnected_players_positions[id]
+			Network.disconnected_players_positions.erase(id)
+			print("Added a global position to disconnected_players_positions")
+	)
+	sync_state.rpc(multiplayer.get_unique_id(), global_position, rotation_degrees, %pivot.rotation_degrees)
+	pass
+
+@rpc("any_peer", "call_remote", "reliable")
+func sync_state(id: int, pos: Vector3, _rotation: Vector3, pivot_rotation: int):
+	if id != int(name): return
+	global_position 		= pos
+	rotation_degrees 		= _rotation
+	%pivot.rotation_degrees = pivot_rotation
 	pass
 
 func move_dir() -> Vector3:
@@ -181,9 +201,6 @@ func change_item(index: int):
 	pass
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey:
-		if Input.is_key_label_pressed(KEY_ESCAPE):
-			get_tree().quit()
 	if is_multiplayer_authority():
 		if event is InputEventKey:
 			if Input.is_key_pressed(KEY_1): change_item.rpc(0)

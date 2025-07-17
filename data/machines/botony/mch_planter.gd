@@ -11,9 +11,9 @@ signal growth_finished
 
 var inside: Array[PlayerBody] = []
 
-@export var seed: PlantData:
+@export var plant_seed: PlantData = load("res://data/resources/plants/Wheat.tres"):
 	set(value):
-		seed = value
+		plant_seed = value
 		set_plant_image()
 		pass
 
@@ -27,6 +27,7 @@ func _ready() -> void:
 	ui_close()
 	add_to_group("MachinePlanter")
 	add_to_group("Interactable")
+	
 	%PlayerLeaveArea.body_entered.connect(func(body):
 		if body.is_in_group("Player"):
 			inside.append(body)
@@ -39,12 +40,12 @@ func _ready() -> void:
 		)
 	growth_finished.connect(func():
 		var inv_item := InventoryItemData.new()
-		inv_item.set_image(seed.bundle_image)
+		inv_item.set_image(plant_seed.bundle_image)
 		var grid: InventoryGrid = %InventoryGrid
 		grid.add_item(inv_item)
 		pass)
-	if timer != null and seed != null:
-		timer.start(seed.grow_time_per_tick)
+	if timer != null and plant_seed != null:
+		timer.start(plant_seed.grow_time_per_tick)
 		timer.timeout.connect(tick)
 	pass
 
@@ -54,10 +55,10 @@ func interact(interactor: PlayerBody):
 	else: interactor.in_menu = false
 
 func tick():
-	var max = seed.images.size() - 1
+	var max = plant_seed.images.size() - 1
 	stage = clamp(stage + 1, 0, max)
 	set_plant_image()
-	if stage < max: timer.start(seed.grow_time_per_tick); growth_tick.emit()
+	if stage < max: timer.start(plant_seed.grow_time_per_tick); growth_tick.emit()
 	else: growth_finished.emit()
 	pass
 
@@ -65,15 +66,16 @@ func set_stage(_stage: int):
 	stage = _stage
 	pass
 
+@rpc("any_peer", "call_local", "reliable")
 func clear():
-	seed = null
+	plant_seed = null
 	set_stage(-1)
 	clear_plant_image()
 	if timer != null: timer.stop()
 	pass
 
 func _on_inventory_grid_items_emptied() -> void:
-	clear()
+	clear.rpc()
 	pass
 
 func clear_plant_image():
@@ -83,20 +85,15 @@ func clear_plant_image():
 	pass
 
 func set_plant_image():
-	if seed == null: clear_plant_image(); return
-	var max = seed.images.size() - 1
-	var seed_img = seed.images[clamp(stage, 0, max)]
+	if plant_seed == null: clear_plant_image(); return
+	var max_size = plant_seed.images.size() - 1
+	var seed_img = plant_seed.images[clamp(stage, 0, max_size)]
 	if seed_img == null: return
 	if plantSprites == null: return
 	for plant in plantSprites.get_children():
 		plant.offset = Vector2(-seed_img.get_width() / 2, 0)
 		plant.texture = seed_img
 	pass
-
-
-
-
-
 
 # UI Openers and Closers.
 
